@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+cd "$(dirname "$0")"
+
+here="$(pwd)"
+
+while read source dest; do
+  echo "$source -> $dest"
+  # eval is required here to handle expansions e.g. ~/
+  dest=$(eval echo $dest)
+  test -L "$dest" || ln -s "$here"/dotfiles/"$source" "$dest"
+done < manifest
+
+## VIM
+
+vundleDir=~/.vim/bundle/Vundle.vim
+test -d "$vundleDir" || git clone https://github.com/VundleVim/Vundle.vim.git "$vundleDir"
+vim +PluginInstall +qall

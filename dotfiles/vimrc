@@ -1,0 +1,49 @@
+" required for vundle
+set nocompatible
+filetype off
+
+" vundle setup
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let vundle manage vundle - required
+Plugin 'VundleVim/Vundle.vim'
+
+" vim-better-whitespace -
+" causes trailing whitespace characters to be highlighted
+Plugin 'ntpeters/vim-better-whitespace'
+
+" all plugins must be added before the following line
+call vundle#end()
+
+filetype plugin indent on
+syntax enable
+
+"
+" CONTROL SETUP
+"
+
+" map j and k to move by visual rows, not real lines
+nmap j gj
+nmap k gk
+
+"
+" DISPLAY SETUP
+"
+
+" display line numbers by default and bind \n to toggle them
+:set nu
+nmap <leader>n :set nu!<CR>
+
+" set nice display chars for tabs and newlines, bind \l to show them
+nmap <leader>l :set list!<CR>
+set listchars=tab:▸\ ,eol:¬
+
+" display a cursor for the current line
+set cursorline
+
+" toggle the cursor for the current line in insert mode
+autocmd InsertEnter,InsertLeave * set cul!
+
+" theme setup
+colorscheme slate
