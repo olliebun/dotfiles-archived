@@ -19,6 +19,21 @@ vundleDir=~/.vim/bundle/Vundle.vim
 test -d "$vundleDir" || git clone https://github.com/VundleVim/Vundle.vim.git "$vundleDir"
 vim +PluginInstall +qall
 
+## GOOGLE CLOUD SDK
+
+cloudsdk_version=332.0.0
+
+if ! [ -d ~/.google-cloud-sdk ]; then
+  (
+    cd /tmp
+    curl -sO "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${cloudsdk_version}-linux-x86_64.tar.gz"
+    tar xzf "google-cloud-sdk-${cloudsdk_version}-linux-x86_64.tar.gz"
+    mv google-cloud-sdk ~/.google-cloud-sdk
+    ~/.google-cloud-sdk/bin/gcloud components install -q kubectl beta
+    rm "/tmp/google-cloud-sdk-${cloudsdk_version}-linux-x86_64.tar.gz"
+  )
+fi
+
 ## MACOS: BREW
 
 if [ "$(uname -s)" == "Darwin" ] && ! which brew >/dev/null; then
