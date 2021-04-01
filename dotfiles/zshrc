@@ -105,6 +105,12 @@ if [ -f ~/.secrets.env ]; then
   source ~/.secrets.env
 fi
 
+## VS CODE
+
+if [ "$(uname -s)" = "Darwin" ]; then
+  export PATH="$PATH":"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+fi
+
 ## GOOGLE CLOUD SDK
 
 export PATH="${PATH}":~/.google-cloud-sdk/bin
