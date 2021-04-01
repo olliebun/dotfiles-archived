@@ -101,8 +101,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ## SECRETS
-if [ -f ~/.secrets.env ]; then
-  source ~/.secrets.env
+if [ -f ~/.secretsrc ]; then
+  source ~/.secretsrc
 fi
 
 ## VS CODE
