@@ -114,3 +114,9 @@ fi
 ## GOOGLE CLOUD SDK
 
 export PATH="$PATH":~/.google-cloud-sdk/bin
+
+## NPM
+
+if [ -d ~/.npm-packages/bin ]; then
+  export PATH="$PATH":~/.npm-packages/bin
+fi
