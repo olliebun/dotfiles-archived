@@ -155,7 +155,7 @@ if [ -d "$HOME"/src/gs ]; then
   export PROJECTS="$HOME/src/gs"
 fi
 
-if [ -d "$PROJECTS"/platform-tools/kubernetes-tools ]
+if [ -d "$PROJECTS"/platform-tools/kubernetes-tools ]; then
   export PATH=$PATH:$PROJECTS/platform-tools/kubernetes-tools
 fi
 
