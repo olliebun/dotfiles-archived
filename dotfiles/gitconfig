@@ -41,3 +41,7 @@
 	helper = store
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[pager]
+	branch = false
+[init]
+	defaultBranch = main
