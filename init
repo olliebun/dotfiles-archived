@@ -10,7 +10,7 @@ while read source dest; do
   echo "$source -> $dest"
   # eval is required here to handle expansions e.g. ~/
   dest="$(eval echo $dest)"
-  full_source=$here"/dotfiles/"$source
+  full_source="$here"/dotfiles/"$source"
   if ! test -L "$dest"; then
     ln -s "$full_source" "$dest"
   elif [ "$(readlink $dest)" != "$full_source" ]; then
