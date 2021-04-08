@@ -105,6 +105,12 @@ if [ -f ~/.secretsrc ]; then
   source ~/.secretsrc
 fi
 
+## ---
+## GIT
+## --
+alias gms="git fetch; git checkout master; git status"
+alias gbd="git branch --merged | grep -v \* | xargs git branch -d"
+
 ## VS CODE
 
 if [ "$(uname -s)" = "Darwin" ]; then
@@ -115,8 +121,59 @@ fi
 
 export PATH="$PATH":~/.google-cloud-sdk/bin
 
-## NPM
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/cera/.google-cloud-sdk/path.zsh.inc' ]; then . '/Users/cera/.google-cloud-sdk/path.zsh.inc'; fi
 
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/cera/.google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/cera/.google-cloud-sdk/completion.zsh.inc'; fi
+
+## KUBERNETES
+alias k="kubectl"
+
+## RUBY
+alias be="bundle exec"
+
+## RUST
+if [ -f "$HOME"/.cargo/env ]; then
+  source ${HOME}/.cargo/env
+fi
+
+## NPM
 if [ -d ~/.npm-packages/bin ]; then
   export PATH="$PATH":~/.npm-packages/bin
 fi
+
+## ASDF
+if [ -d "$HOME"/.asdf ]; then
+  source "$HOME"/.asdf/asdf.sh
+  source "$HOME"/.asdf/completions/asdf.bash
+fi
+
+## GREENSYNC
+
+if [ -d "$HOME"/src/gs ]; then
+  export PROJECTS="$HOME/src/gs"
+fi
+
+if [ -d "$PROJECTS"/platform-tools/kubernetes-tools ]
+  export PATH=$PATH:$PROJECTS/platform-tools/kubernetes-tools
+fi
+
+work_with_dex() {
+  source ~/.config/gs/dex-secrets.sh
+  source "${PROJECTS}/dex-core/scripts/shell-utils/jwt.sh"
+  source "${PROJECTS}/dex-core/scripts/shell-utils/dex-environments-vars.sh"
+}
+
+with-deploytools() {
+  local google_creds_path
+  google_creds_path=${GOOGLE_APPLICATION_CREDENTIALS:-$(gcloud info --format="value(config.paths.global_config_dir)")/application_default_credentials.json}
+
+  docker run -it --rm \
+    -v ${google_creds_path}:/google-creds:ro \
+    -e GOOGLE_APPLICATION_CREDENTIALS=/google-creds \
+    --mount="type=bind,src=${PWD},dst=/work" \
+    -w /work \
+    asia.gcr.io/greensync-container-registry/deploytools:2020.10 \
+    "${@-bash}"
+}
