@@ -72,7 +72,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH"/oh-my-zsh.sh
 
 # User configuration
 
@@ -135,7 +135,7 @@ alias be="bundle exec"
 
 ## RUST
 if [ -f "$HOME"/.cargo/env ]; then
-  source ${HOME}/.cargo/env
+  source "$HOME"/.cargo/env
 fi
 
 ## NPM
@@ -161,8 +161,8 @@ fi
 
 work_with_dex() {
   source ~/.config/gs/dex-secrets.sh
-  source "${PROJECTS}/dex-core/scripts/shell-utils/jwt.sh"
-  source "${PROJECTS}/dex-core/scripts/shell-utils/dex-environments-vars.sh"
+  source "$PROJECTS"/dex-core/scripts/shell-utils/jwt.sh
+  source "$PROJECTS"/dex-core/scripts/shell-utils/dex-environments-vars.sh
 }
 
 with-deploytools() {
@@ -170,7 +170,7 @@ with-deploytools() {
   google_creds_path=${GOOGLE_APPLICATION_CREDENTIALS:-$(gcloud info --format="value(config.paths.global_config_dir)")/application_default_credentials.json}
 
   docker run -it --rm \
-    -v ${google_creds_path}:/google-creds:ro \
+    -v "$google_creds_path":/google-creds:ro \
     -e GOOGLE_APPLICATION_CREDENTIALS=/google-creds \
     --mount="type=bind,src=${PWD},dst=/work" \
     -w /work \

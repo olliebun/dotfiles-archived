@@ -6,14 +6,14 @@ cd "$(dirname "$0")"
 
 here="$(pwd)"
 
-while read source dest; do
+while read -r source dest; do
   echo "$source -> $dest"
   # eval is required here to handle expansions e.g. ~/
-  dest="$(eval echo $dest)"
+  dest="$(eval echo """$dest""")"
   full_source="$here"/dotfiles/"$source"
   if ! test -L "$dest"; then
     ln -s "$full_source" "$dest"
-  elif [ "$(readlink $dest)" != "$full_source" ]; then
+  elif [ "$(readlink """$dest""")" != "$full_source" ]; then
     echo "$dest exists but is not a link to $full_source" >&2
     exit 1
   fi
