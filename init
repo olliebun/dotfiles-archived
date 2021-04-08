@@ -9,8 +9,14 @@ here="$(pwd)"
 while read source dest; do
   echo "$source -> $dest"
   # eval is required here to handle expansions e.g. ~/
-  dest=$(eval echo $dest)
-  test -L "$dest" || ln -s "$here"/dotfiles/"$source" "$dest"
+  dest="$(eval echo $dest)"
+  full_source=$here"/dotfiles/"$source
+  if ! test -L "$dest"; then
+    ln -s "$full_source" "$dest"
+  elif [ "$(readlink $dest)" != "$full_source" ]; then
+    echo "$dest exists but is not a link to $full_source" >&2
+    exit 1
+  fi
 done < manifest
 
 ## VIM
