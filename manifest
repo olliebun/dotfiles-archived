@@ -1,3 +1,4 @@
+asdfrc ~/.asdfrc
 gitconfig ~/.gitconfig
 gitignore_global ~/.gitignore_global
 npmrc ~/.npmrc
