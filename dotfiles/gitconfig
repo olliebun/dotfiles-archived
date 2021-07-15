@@ -48,3 +48,5 @@
 	defaultBranch = main
 [commit]
 	gpgsign = true
+[url "ssh://git@github.com/flipgroup"]
+	insteadOf = https://github.com/flipgroup
