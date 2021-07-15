@@ -1,6 +1,7 @@
 [user]
 	name = Oliver Davies
-	email = ceralena.davies@gmail.com
+	email = oliver.davies.jar@gmail.com
+	signingkey = 35D54101D7F915C0
 [color]
 	diff = auto
 	status = auto
@@ -45,3 +46,5 @@
 	branch = false
 [init]
 	defaultBranch = main
+[commit]
+	gpgsign = true
