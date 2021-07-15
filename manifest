@@ -2,6 +2,6 @@ asdfrc ~/.asdfrc
 gitconfig ~/.gitconfig
 gitignore_global ~/.gitignore_global
 npmrc ~/.npmrc
-zshrc ~/.zshrc
-vimrc ~/.vimrc
 sshconfig ~/.ssh/config
+vimrc ~/.vimrc
+zshrc ~/.zshrc
