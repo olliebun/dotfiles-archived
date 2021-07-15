@@ -4,3 +4,4 @@ gitignore_global ~/.gitignore_global
 npmrc ~/.npmrc
 zshrc ~/.zshrc
 vimrc ~/.vimrc
+sshconfig ~/.ssh/config
