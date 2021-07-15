@@ -29,7 +29,7 @@ vim +PluginInstall +qall
 
 cloudsdk_version=332.0.0
 
-if ! [ -d ~/.google-cloud-sdk ]; then
+if ! [ -z "${ENABLE_GOOGLE_CLOUD_SDK:-}" ] && ! [ -d ~/.google-cloud-sdk ]; then
   (
     cd /tmp
     curl -sO "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${cloudsdk_version}-linux-x86_64.tar.gz"
