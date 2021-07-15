@@ -70,13 +70,4 @@ if ! which wget >/dev/null; then
   brew install wget
 fi
 
-### kubernetes
-if ! which kubectx >/dev/null; then
-  brew install kubectx
-fi
-
-if ! which kustomize >/dev/null; then
-  brew install kustomize
-fi
-
 fi
