@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -45,8 +45,6 @@ ZSH_THEME="robbyrussell"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -72,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source "$ZSH"/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -100,9 +98,15 @@ source "$ZSH"/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+warn() {
+  echo "WARNING: $1" >&2
+}
+
+## ---
 ## SECRETS
-if [ -f ~/.secretsrc ]; then
-  source ~/.secretsrc
+## ---
+if [ -f "$HOME/.secrets.env" ]; then
+  source "$HOME/.secrets.env"
 fi
 
 ## ---
@@ -111,69 +115,49 @@ fi
 alias gms="git fetch; git checkout master; git status"
 alias gbd="git branch --merged | grep -v \* | xargs git branch -d"
 
-## VS CODE
-
-if [ "$(uname -s)" = "Darwin" ]; then
-  export PATH="$PATH":"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-fi
-
-## GOOGLE CLOUD SDK
-
-export PATH="$PATH":~/.google-cloud-sdk/bin
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/cera/.google-cloud-sdk/path.zsh.inc' ]; then . '/Users/cera/.google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/cera/.google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/cera/.google-cloud-sdk/completion.zsh.inc'; fi
-
+## ---
 ## KUBERNETES
+## --
 alias k="kubectl"
 
+## ---
 ## RUBY
+## ---
+
 alias be="bundle exec"
 
+## --
 ## RUST
-if [ -f "$HOME"/.cargo/env ]; then
-  source "$HOME"/.cargo/env
+## --
+if [ -f "$HOME/.cargo/env" ]; then
+  source ${HOME}/.cargo/env
 fi
 
-## NPM
-if [ -d ~/.npm-packages/bin ]; then
-  export PATH="$PATH":~/.npm-packages/bin
-fi
-
+## ---
 ## ASDF
-if [ -d "$HOME"/.asdf ]; then
-  source "$HOME"/.asdf/asdf.sh
-  source "$HOME"/.asdf/completions/asdf.bash
+## ---
+if [ -d "$HOME/.asdf" ]; then
+  source ${HOME}/.asdf/asdf.sh
+  source ${HOME}/.asdf/completions/asdf.bash
+else
+  warn "asdf is not installed"
 fi
 
-## GREENSYNC
-
-if [ -d "$HOME"/src/gs ]; then
-  export PROJECTS="$HOME/src/gs"
+## ---
+## MacOS STUFF
+## ---
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 fi
 
-if [ -d "$PROJECTS"/platform-tools/kubernetes-tools ]; then
-  export PATH="$PATH":"$PROJECTS"/platform-tools/kubernetes-tools
-fi
+alias vlc='/Applications/VLC.app/Contents/MacOS/VLC -I rc'
 
-work_with_dex() {
-  source ~/.config/gs/dex-secrets.sh
-  source "$PROJECTS"/dex-core/scripts/shell-utils/jwt.sh
-  source "$PROJECTS"/dex-core/scripts/shell-utils/dex-environments-vars.sh
-}
+## ---
+## NODE / NPM / YARN
+## ---
+export PATH=$PATH:${HOME}/.config/yarn/global/node_modules/.bin
 
-with-deploytools() {
-  local google_creds_path
-  google_creds_path=${GOOGLE_APPLICATION_CREDENTIALS:-$(gcloud info --format="value(config.paths.global_config_dir)")/application_default_credentials.json}
+# FLIP
+export GOPRIVATE="github.com/flipgroup"
 
-  docker run -it --rm \
-    -v "$google_creds_path":/google-creds:ro \
-    -e GOOGLE_APPLICATION_CREDENTIALS=/google-creds \
-    --mount="type=bind,src=${PWD},dst=/work" \
-    -w /work \
-    asia.gcr.io/greensync-container-registry/deploytools:2020.10 \
-    "${@-bash}"
-}
+alias event-store-tail='{ cd ~/src/flip/eventsource; time aws-vault exec geppetto-prod-administrator -- pges/ops/connect.sh go run ./cmd/event-store-tail/main.go }'
