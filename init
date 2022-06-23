@@ -25,49 +25,7 @@ vundleDir=~/.vim/bundle/Vundle.vim
 test -d "$vundleDir" || git clone https://github.com/VundleVim/Vundle.vim.git "$vundleDir"
 vim +PluginInstall +qall
 
-## GOOGLE CLOUD SDK
-
-cloudsdk_version=332.0.0
-
-if ! [ -z "${ENABLE_GOOGLE_CLOUD_SDK:-}" ] && ! [ -d ~/.google-cloud-sdk ]; then
-  (
-    cd /tmp
-    curl -sO "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${cloudsdk_version}-linux-x86_64.tar.gz"
-    tar xzf "google-cloud-sdk-${cloudsdk_version}-linux-x86_64.tar.gz"
-    mv google-cloud-sdk ~/.google-cloud-sdk
-    ~/.google-cloud-sdk/bin/gcloud components install -q kubectl beta
-    rm "/tmp/google-cloud-sdk-${cloudsdk_version}-linux-x86_64.tar.gz"
-  )
-fi
-
 ## ASDF
 if ! [ -d ~/.asdf ]; then
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.0
-fi
-
-## TODO
-
-## MACOS
-
-### BREW
-
-if [ "$(uname -s)" == "Darwin" ]; then
-
-if ! which brew >/dev/null; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/ollie/.zprofile
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-  brew update
-fi
-
-### JQ
-if ! which jq >/dev/null; then
-  brew install jq
-fi
-
-### wget
-if ! which wget >/dev/null; then
-  brew install wget
-fi
-
 fi
