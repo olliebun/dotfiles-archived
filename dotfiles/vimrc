@@ -13,6 +13,12 @@ Plugin 'VundleVim/Vundle.vim'
 " causes trailing whitespace characters to be highlighted
 Plugin 'ntpeters/vim-better-whitespace'
 
+" vim-go
+Plugin 'fatih/vim-go'
+
+" vim-colors-solarized
+Plugin 'altercation/vim-colors-solarized'
+
 " all plugins must be added before the following line
 call vundle#end()
 
@@ -42,8 +48,14 @@ set listchars=tab:▸\ ,eol:¬
 " display a cursor for the current line
 set cursorline
 
+" set tab length to 4 spaces
+set tabstop=4
+
 " toggle the cursor for the current line in insert mode
 autocmd InsertEnter,InsertLeave * set cul!
+let g:solarized_termcolors=256
 
-" theme setup
-colorscheme slate
+set background=light
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+colorscheme solarized
