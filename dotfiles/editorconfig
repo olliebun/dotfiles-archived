@@ -19,17 +19,22 @@ indent_style = tab
 [*.html]
 indent_size = 2
 
-[*.json]
+[*.{js,json}]
 indent_size = 2
 
 [*.py]
 indent_size = 4
-indent_style = space
+
+[*.scss]
+indent_size = 2
 
 [*.sh]
 indent_size = 2
 
 [*.{tf,tfvars}]
+indent_size = 2
+
+[*.vue]
 indent_size = 2
 
 [*.{yaml,yml}]
