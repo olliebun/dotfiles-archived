@@ -164,4 +164,18 @@ export PATH=$PATH:${HOME}/.config/yarn/global/node_modules/.bin
 # FLIP
 export GOPRIVATE="github.com/flipgroup"
 
-alias event-store-tail='{ cd ~/src/flip/eventsource; time aws-vault exec geppetto-prod-administrator -- pges/ops/connect.sh go run ./cmd/event-store-tail/main.go }'
+export PATH_TO_EVENTSOURCE="$HOME/src/flip/eventsource"
+alias event-store-tail='cd ~/src/flip/eventsource; time aws-vault exec geppetto-prod-administrator -- scripts/connect-rds.sh go run ./cmd/event-store-tail/main.go'
+
+alias flip-aws-dev-admin='aws-vault exec geppetto-dev-administrator'
+alias flip-aws-prod-admin='aws-vault exec geppetto-prod-administrator'
+alias flip-aws-prod-ro='aws-vault exec geppetto-prod-readonly'
+
+alias geppetto-dev='GEPPETTO_ENV=flip-testing-dev geppetto'
+alias geppetto-prod='GEPPETTO_ENV=flip-testing-prod geppetto'
+
+flip-cli-dev() {
+  exec env GEPPETTO_ENV=flip-testing-dev bash
+}
+
+export AWS_REGION=ap-southeast-2
