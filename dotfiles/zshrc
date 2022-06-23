@@ -143,6 +143,10 @@ else
   warn "asdf is not installed"
 fi
 
+if [ -d "$HOME/bin" ]; then
+  export PATH=$PATH:"$HOME/bin"
+fi
+
 ## ---
 ## MacOS STUFF
 ## ---
