@@ -1,1 +1,3 @@
-prefix = ${HOME}/.npm-packages
+prefix=/Users/ollie/.npm-packages
+@flipgroup:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=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
