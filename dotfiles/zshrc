@@ -161,21 +161,50 @@ alias vlc='/Applications/VLC.app/Contents/MacOS/VLC -I rc'
 ## ---
 export PATH=$PATH:${HOME}/.config/yarn/global/node_modules/.bin
 
+# MULTIPASS
+PATH="$PATH:/Users/ollie/Library/Application Support/multipass/bin"
+alias docker-compose="docker compose"
+export MACHINE_NAME=flip-docker
+#export DOCKER_HOST="tcp://$MACHINE_NAME.local:2375"
+export DOCKER_HOST=tcp://192.168.64.4:2375
+
 # FLIP
 export GOPRIVATE="github.com/flipgroup"
 
-export PATH_TO_EVENTSOURCE="$HOME/src/flip/eventsource"
-alias event-store-tail='cd ~/src/flip/eventsource; time aws-vault exec geppetto-prod-administrator -- scripts/connect-rds.sh go run ./cmd/event-store-tail/main.go'
+export PATH_TO_EVENTSOURCE="$HOME/src/flip/workspace/eventsource"
+#alias event-store-tail='cd ~/src/flip/eventsource; time aws-vault exec geppetto-prod-administrator -- scripts/connect-rds.sh go run ./cmd/event-store-tail/main.go'
 
-alias flip-aws-dev-admin='aws-vault exec geppetto-dev-administrator'
-alias flip-aws-prod-admin='aws-vault exec geppetto-prod-administrator'
+alias flip-aws-dev-admin='aws-vault exec geppetto-dev-admin'
+alias flip-aws-dev-ro='aws-vault exec geppetto-dev-readonly'
+alias flip-aws-prod-admin='aws-vault exec geppetto-prod-admin'
 alias flip-aws-prod-ro='aws-vault exec geppetto-prod-readonly'
 
 alias geppetto-dev='GEPPETTO_ENV=flip-testing-dev geppetto'
 alias geppetto-prod='GEPPETTO_ENV=flip-testing-prod geppetto'
 
+flip-cli-build-and-install() {
+  (cd ~/src/flip/org && go build ./cmd/tools/geppetto && mv geppetto ~/bin/)
+}
+
+
 flip-cli-dev() {
-  exec env GEPPETTO_ENV=flip-testing-dev bash
+  exec env GEPPETTO_ENV=flip-testing-dev zsh
 }
 
 export AWS_REGION=ap-southeast-2
+
+flip-bee-test-vars() {
+  set -x
+  export DYNAMODB_ENDPOINT="http://${MACHINE_NAME}.local:9832"
+  export PGHOST=${MACHINE_NAME}.local
+  export PGPORT=9932
+  export PGUSER=postgres
+  export PGPASSWORD=postgrespassword
+  set +x
+}
+
+alias mag-docker-hosttoip='ping -c1 flip-docker.local | sed -nE "s/^PING[^(]+\(([^)]+)\):.+/export DOCKER_HOST=\"tcp:\/\/\1:2375\"/p" | pbcopy'
+
+pkg_test_coverage() {
+  go test -cover "$1" -coverprofile=cover.out && go tool cover -html=cover.out && rm cover.out
+}
